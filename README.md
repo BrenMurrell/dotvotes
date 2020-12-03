@@ -76,7 +76,7 @@ This project could be used to run dot voting and project selection for final pro
 
 
 ### Global state
-``` json
+``` js
 globalState = {
   "projects" = [
     {
