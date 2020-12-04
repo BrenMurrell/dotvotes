@@ -1,34 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { fetchUser, fetchUsersFromApi, logInWithGithub, signOut } from '../actions/auth'
+import { IfAuth, IfNotAuth } from './auth/IfAuth'
 
-import { fetchFruits } from '../actions'
+const App = (props) => {
+  useEffect(() => {
+    props.dispatch(fetchUsersFromApi())
+    props.dispatch(fetchUser())
+  }, [])
 
-export class App extends React.Component {
-  state = {
-    fruits: []
-  }
-
-  componentDidMount () {
-    this.props.dispatch(fetchFruits())
-  }
-
-  render () {
-    return (
-      <div className='app'>
-        <h1>Fullstack Boilerplate - with Fruits!</h1>
-        <ul>
-          {this.props.fruits.map(fruit => (
-            <li key={fruit}>{fruit}</li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
+  return (
+    <div className='app'>
+      <h1>.votes</h1>
+      <ul>
+        { props.users.map(user => (
+          <li key={user.username}>{user.username}</li>
+        ))}
+      </ul>
+      <IfNotAuth>
+        <button onClick={() => props.dispatch(logInWithGithub())}>Log in</button>
+      </IfNotAuth>
+      <IfAuth>
+        <p>I am {props.auth.user.displayName}</p>
+        <button onClick={() => props.dispatch(signOut())}>Log Out</button>
+      </IfAuth>
+    </div>
+  )
 }
 
 function mapStateToProps (globalState) {
   return {
-    fruits: globalState.fruits
+    auth: globalState.auth,
+    users: globalState.users
   }
 }
 
