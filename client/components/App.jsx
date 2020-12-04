@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchUser, fetchUsersFromApi, logInWithGithub, signOut } from '../actions/auth'
-import { IfAuth, IfNotAuth } from './auth/IfAuth'
+import { IfAuth, IfNotAuth, IfAdmin } from './auth/Auth'
 
 const App = (props) => {
   useEffect(() => {
@@ -22,6 +22,9 @@ const App = (props) => {
       </IfNotAuth>
       <IfAuth>
         <p>I am {props.auth.user.displayName}</p>
+        <IfAdmin>
+          <p>I am an admin</p>
+        </IfAdmin>
         <button onClick={() => props.dispatch(signOut())}>Log Out</button>
       </IfAuth>
     </div>
