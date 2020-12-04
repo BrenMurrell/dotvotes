@@ -15,4 +15,15 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+  const user = req.body
+  return db.insertNewUser(user)
+    .then(result => {
+      return res.json(result)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+})
+
 module.exports = router

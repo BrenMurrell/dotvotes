@@ -1,12 +1,12 @@
-import { fetchUsers } from '../apis/auth'
+import { fetchUsers, insertUser } from '../apis/users'
 import { firebaseApp, authRef, github } from '../config/firebase'
 
 export const SET_USERS = 'SET_USERS'
+export const ADDED_USER = 'ADDED_USER'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGOUT = 'LOGOUT'
 
 export function setUsers (users) {
-  console.log('users in action to reducer', users)
   return {
     type: SET_USERS,
     users
@@ -17,7 +17,6 @@ export function fetchUsersFromApi () {
   return dispatch => {
     return fetchUsers()
       .then(users => {
-        console.log('users in action', users)
         dispatch(setUsers(users))
         return null
       })
@@ -33,17 +32,11 @@ export const logIn = (user) => {
 
 export const fetchUser = () => {
   return dispatch => {
-    // initially check local token
-    // ---- add that code here
-    // then:
     authRef.onAuthStateChanged(user => {
       if (user) {
         dispatch(logIn(user))
-        // dispatch(authLoaded())
-        // dispatch(fetchUserAlbums(user.uid))
       } else {
         dispatch(signOut())
-        // dispatch(authLoaded())
       }
     })
   }
@@ -84,4 +77,21 @@ export const signOut = () => dispatch => {
     .catch(error => {
       console.log(error.message)
     })
+}
+
+export const addUser = (user) => {
+  return {
+    type: ADDED_USER,
+    user
+  }
+}
+
+export const addUserWithAPI = (user) => dispatch => {
+  // console.log(user)
+  user.uid = 'test'
+  return insertUser(user)
+  // .then(res => {
+  //   dispatch(addUser(user))
+  //   return res.body
+  // })
 }

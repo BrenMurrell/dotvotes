@@ -1,3 +1,4 @@
+/* eslint-disable promise/no-nesting */
 const db = require('./users')
 const knex = require('knex')
 const config = require('./knexfile')
@@ -34,18 +35,19 @@ describe('DB: User tests', () => {
 
   test('R: can get a user by username', () => {
     const expected = {
+      uid: '123456',
       username: 'brenmurrell',
-      cohort: '2020-hihi'
+      cohort: 'pōneke'
     }
     return db.selectUserByUsername(expected.username, testDb)
       .then(user => {
-        const actual = user
-        return expect(actual).toEqual(expected)
+        const actual = user.cohort
+        return expect(actual).toEqual(expected.cohort)
       })
   })
 
   test('R: can get all users', () => {
-    const expected = 3
+    const expected = 6
     return db.selectUsersAll(testDb)
       .then(users => {
         const actual = users.length
