@@ -1,4 +1,5 @@
-import { fetchUsers, insertUser } from '../apis/users'
+/* eslint-disable promise/no-nesting */
+import { fetchUsers, fetchUserByUsername, getUserFromGithub, insertUser } from '../apis/users'
 import { firebaseApp, authRef, github } from '../config/firebase'
 
 export const SET_USERS = 'SET_USERS'
@@ -56,10 +57,6 @@ export const logInWithGithub = () => {
       // var token = result.credential.accessToken
         var user = result.user
         dispatch(logIn(user))
-        // dispatch(setToaster({
-        //   type: 'normal',
-        //   message: 'Logged in successfully.'
-        // }))
         return null
       })
       .catch((err) => {
@@ -86,12 +83,59 @@ export const addUser = (user) => {
   }
 }
 
-export const addUserWithAPI = (user) => dispatch => {
-  // console.log(user)
-  user.uid = 'test'
-  return insertUser(user)
-  // .then(res => {
-  //   dispatch(addUser(user))
-  //   return res.body
-  // })
+export const userExists = (username) => {
+  return fetchUserByUsername(username)
+    .then(user => {
+      return user
+    })
+    .catch(err => {
+      console.log(err.message)
+      return null
+    })
+}
+
+export const addAnyUser = (user) => dispatch => {
+  return userExists(user.username)
+    .then(userFromDb => {
+      if (userFromDb) {
+        console.log('already have that user')
+        // add them to the cohort
+        return null
+      } else {
+        console.log('no user :(')
+        console.log('sending username to github: ', user.username)
+        return getUserFromGithub(user.username)
+          .then(githubUser => {
+            console.log('user returned to action', githubUser)
+            // return githubUser.body
+            const newUser = {
+              uid: githubUser.id,
+              username: githubUser.login,
+              cohort: user.cohort
+            }
+            return dispatch(insertUser(newUser))
+              .then(res => {
+                return dispatch(fetchUsersFromApi())
+              })
+          })
+      }
+    })
+    .catch(err => {
+      console.log('error: ', err.message, err)
+    })
+}
+
+export const addNewUser = (user) => dispatch => {
+  // add to users table,
+  return firebaseApp.auth().currentUser.getIdToken()
+    .then(token => {
+      console.log(user, token)
+      return null
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  // then use the ID that comes back to add to the cohort_users table
+
+  // then refresh the globalState
 }

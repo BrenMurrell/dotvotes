@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { addUserWithAPI } from '../actions/auth'
+import { addAnyUser } from '../actions/auth'
 
 const Cohort = (props) => {
   const cohort = props.match.params.cohort
   const [cohortUsers, setCohortUsers] = useState([])
 
   const [newUser, setNewUser] = useState({
-    username: '',
+    username: 'Htense',
     cohort: cohort
   })
 
@@ -20,7 +20,7 @@ const Cohort = (props) => {
 
   const submitForm = e => {
     e.preventDefault()
-    props.dispatch(addUserWithAPI(newUser))
+    props.dispatch(addAnyUser(newUser))
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Cohort = (props) => {
         <p key={user.uid}>{user.username} - { user.cohort }</p>
       ))}
       <form onSubmit={submitForm}>
-        <input type="text" name="username" onChange={onUserNameChange} />
+        <input type="text" name="username" value={newUser.username} onChange={onUserNameChange} />
         <button>submit</button>
       </form>
     </>
