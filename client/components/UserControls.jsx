@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { IfAdmin, IfNotAuth, IfAuth } from './auth/Auth'
 import { logInWithGithub, signOut } from '../actions/auth'
 
-const User = (props) => {
+const UserControls = (props) => {
   return (
     <>
       <IfNotAuth>
@@ -32,4 +32,4 @@ const ms2p = (globalState) => {
   }
 }
 
-export default connect(ms2p)(User)
+export default connect(ms2p)(UserControls)

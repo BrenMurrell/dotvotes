@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap');
 
-html, 
-body {
-  font-family: 'Montserrat', sans-serif;
-}
 
 
 .user-block {
@@ -26,9 +21,12 @@ body {
 }
 
 .avatar {
-  
+
   &--24 {
     height: 24px;
     width: 24px;
   }
 }
+
+@import './0_base/all';
+@import './5_components/all';

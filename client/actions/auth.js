@@ -98,25 +98,20 @@ export const addAnyUser = (user) => dispatch => {
   return userExists(user.username)
     .then(userFromDb => {
       if (userFromDb) {
-        console.log('already have that user')
         // add them to the cohort
         return null
       } else {
-        console.log('no user :(')
-        console.log('sending username to github: ', user.username)
         return getUserFromGithub(user.username)
           .then(githubUser => {
-            console.log('user returned to action', githubUser)
-            // return githubUser.body
             const newUser = {
               uid: githubUser.id,
               username: githubUser.login,
               cohort: user.cohort
             }
-            return dispatch(insertUser(newUser))
-              .then(res => {
-                return dispatch(fetchUsersFromApi())
-              })
+            return dispatch(addNewUser(newUser))
+            // .then(res => {
+            //   return dispatch(fetchUsersFromApi())
+            // })
           })
       }
     })
@@ -130,7 +125,10 @@ export const addNewUser = (user) => dispatch => {
   return firebaseApp.auth().currentUser.getIdToken()
     .then(token => {
       console.log(user, token)
-      return null
+      return dispatch(insertUser(user, token))
+        .then(res => {
+          return dispatch(fetchUsersFromApi())
+        })
     })
     .catch(err => {
       console.log(err.message)

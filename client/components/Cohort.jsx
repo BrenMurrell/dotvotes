@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { addAnyUser } from '../actions/auth'
+import Avatar from './Avatar'
 
 const Cohort = (props) => {
   const cohort = props.match.params.cohort
@@ -25,13 +26,15 @@ const Cohort = (props) => {
 
   useEffect(() => {
     setCohortUsers(props.users.filter(user => user.cohort === cohort))
-  }, [props.users])
+  }, [props.users, props.match])
 
   return (
     <>
-      {cohortUsers.map(user => (
-        <p key={user.uid}>{user.username} - { user.cohort }</p>
-      ))}
+      <div className="avatars avatars--compact">
+        {cohortUsers.map(user => (
+          <Avatar user={user} key={user.uid} />
+        ))}
+      </div>
       <form onSubmit={submitForm}>
         <input type="text" name="username" value={newUser.username} onChange={onUserNameChange} />
         <button>submit</button>

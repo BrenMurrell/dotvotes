@@ -3,8 +3,8 @@ const express = require('express')
 const request = require('superagent')
 
 // var jwt = require('jsonwebtoken')
-// var admin = require('firebase-admin')
-// var app = admin.initializeApp()
+var admin = require('firebase-admin')
+var app = admin.initializeApp()
 
 const db = require('../db/users')
 
@@ -42,7 +42,7 @@ router.get('/github/:username', (req, res) => {
 
 router.post('/', (req, res) => {
   const user = req.body.user
-  // const token = req.body.token
+  const token = req.body.token
 
   // return res.json({ user: user, token: token })
   // use token to check log in - if works then do:
@@ -51,12 +51,13 @@ router.post('/', (req, res) => {
   //   .auth()
   //   .verifyIdToken(token)
   //   .then((decodedToken) => {
-  // })
+  //   })
   return db.insertNewUser(user)
     .then(result => {
       return res.json(result)
     })
     .catch(err => {
+      console.log(err.message)
       res.json(err)
     })
 })

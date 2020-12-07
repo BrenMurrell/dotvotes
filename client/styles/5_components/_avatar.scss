@@ -1,0 +1,25 @@
+.avatar {
+  width: 4.8rem;
+  height: auto;
+  overflow: visible;
+
+  &s{
+    display: flex;
+    
+    &--compact {
+      .avatar {
+        width: 2.4rem;
+        transition: width 0.4s;
+        &:hover {
+          width: 4.8rem;
+        }
+      }
+    }
+  }
+
+  &__image {
+    border-radius: 50%;
+    height: 4.8rem;
+    width: 4.8rem;
+  }
+}

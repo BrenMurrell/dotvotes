@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUser, fetchUsersFromApi } from '../actions/auth'
-import User from './User'
+import UserControls from './UserControls'
 import Cohort from './Cohort'
 const App = (props) => {
   useEffect(() => {
@@ -23,12 +23,12 @@ const App = (props) => {
       <ul>
         { props.users.map(user => (
           <li key={user.uid}>
-            <img className="avatar avatar--24" src={`https://avatars3.githubusercontent.com/u/${user.uid}?s=24&v=4`} />
+            <img className="avatar avatar--24" src={`https://avatars3.githubusercontent.com/u/${user.uid}?s=48&v=4`} />
             {user.username}
           </li>
         ))}
       </ul>
-      <User />
+      <UserControls />
     </div>
   )
 }
