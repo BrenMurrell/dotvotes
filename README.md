@@ -30,7 +30,7 @@ This project could be used to run dot voting and project selection for final pro
 | name    | string | name of project                          |
 | summary | string | simple 1 or 2 sentences / elevator pitch |
 | lead    | string | FK to `users.username                    |
-| cohort  | string | FK to `cohorts.id |
+| cohort  | string | FK to `cohorts.id                        |
 
 #### project_members - team members (excluding lead) selected for each project 
 | Field        | Type   | Notes                 |

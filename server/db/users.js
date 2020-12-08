@@ -5,7 +5,9 @@ const insertNewUser = (user, db = connection) => {
 }
 
 const selectUsersAll = (db = connection) => {
-  return db('users').select()
+  return db('users')
+    .select()
+    .orderBy('username')
 }
 
 const selectUserByUsername = (username, db = connection) => {

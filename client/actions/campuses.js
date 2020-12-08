@@ -1,0 +1,1 @@
+export const SET_CAMPUSES = 'SET_CAMPUSES'

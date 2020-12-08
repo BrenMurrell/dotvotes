@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { fetchUser, fetchUsersFromApi } from '../actions/auth'
 import UserControls from './UserControls'
 import Cohort from './Cohort'
+import Cohorts from './Cohorts'
+
 const App = (props) => {
   useEffect(() => {
     props.dispatch(fetchUsersFromApi())
@@ -16,18 +18,21 @@ const App = (props) => {
       <Router>
         <Switch>
           {props.users !== [] && (
-            <Route path="/cohort/:cohort" exact component={Cohort}/>
+            <>
+              <Route path="/cohorts" component={Cohorts} />
+              <Route path="/cohorts/:cohort" exact component={Cohort}/>
+            </>
           )}
         </Switch>
       </Router>
-      <ul>
+      {/* <ul>
         { props.users.map(user => (
           <li key={user.uid}>
             <img className="avatar avatar--24" src={`https://avatars3.githubusercontent.com/u/${user.uid}?s=48&v=4`} />
             {user.username}
           </li>
         ))}
-      </ul>
+      </ul> */}
       <UserControls />
     </div>
   )

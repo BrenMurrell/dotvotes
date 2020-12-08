@@ -10,6 +10,9 @@ const Avatar = (props) => {
         className="avatar__image"
         title={ user.username }
       />
+      {props.showName && (
+        <p className="avatar__name">{user.username}</p>
+      )}
     </div>
   )
 }

@@ -4,11 +4,11 @@ import { addAnyUser } from '../actions/auth'
 import Avatar from './Avatar'
 
 const Cohort = (props) => {
-  const cohort = props.match.params.cohort
+  const [cohort, setCohort] = useState(props.match.params.cohort)
   const [cohortUsers, setCohortUsers] = useState([])
 
   const [newUser, setNewUser] = useState({
-    username: 'Htense',
+    username: '',
     cohort: cohort
   })
 
@@ -22,11 +22,23 @@ const Cohort = (props) => {
   const submitForm = e => {
     e.preventDefault()
     props.dispatch(addAnyUser(newUser))
+    setNewUser({
+      ...newUser,
+      username: ''
+    })
   }
 
   useEffect(() => {
+    setCohort(props.match.params.cohort)
     setCohortUsers(props.users.filter(user => user.cohort === cohort))
-  }, [props.users, props.match])
+  }, [props.users, props.match, cohort])
+
+  useEffect(() => {
+    setNewUser({
+      ...newUser,
+      cohort: cohort
+    })
+  }, [cohort])
 
   return (
     <>
@@ -35,6 +47,12 @@ const Cohort = (props) => {
           <Avatar user={user} key={user.uid} />
         ))}
       </div>
+      <div className="avatars avatars--vertical">
+        {cohortUsers.map(user => (
+          <Avatar showName user={user} key={user.uid} />
+        ))}
+      </div>
+      <p>{cohortUsers.length}</p>
       <form onSubmit={submitForm}>
         <input type="text" name="username" value={newUser.username} onChange={onUserNameChange} />
         <button>submit</button>

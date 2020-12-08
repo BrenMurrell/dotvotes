@@ -2,10 +2,19 @@
   width: 4.8rem;
   height: auto;
   overflow: visible;
+  display: flex;
 
   &s{
     display: flex;
     
+    &--vertical {
+      flex-direction: column;
+      .avatar {
+        width: auto;
+        margin-bottom: 0.8rem;
+      };
+    }
+
     &--compact {
       .avatar {
         width: 2.4rem;
@@ -21,5 +30,14 @@
     border-radius: 50%;
     height: 4.8rem;
     width: 4.8rem;
+  }
+
+  &__name {
+    // text-transform: lowercase;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 4.8rem;
+    margin: 0;
+    padding: 0 1rem;
   }
 }
