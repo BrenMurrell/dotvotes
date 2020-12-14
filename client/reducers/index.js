@@ -1,7 +1,13 @@
 import { combineReducers } from 'redux'
 
-import fruits from './fruits'
+import auth from './auth'
+import campuses from './campuses'
+import cohorts from './cohorts'
+import users from './users'
 
 export default combineReducers({
-  fruits
+  auth,
+  campuses,
+  cohorts,
+  users
 })
