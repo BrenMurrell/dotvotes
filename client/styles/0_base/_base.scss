@@ -4,4 +4,11 @@ html,
 body {
   font-family: 'Montserrat', sans-serif;
   font-size: 10px;
+  background-color: #fff;
+  color: #222;
+
+  @media (prefers-color-scheme: $theme-toggle) {
+    background-color: #222;
+    color: #fff;
+  }
 }

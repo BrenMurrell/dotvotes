@@ -3,6 +3,7 @@ exports.up = (knex, Promise) => {
     table.string('uid')
     table.string('username')
     table.string('cohort')
+    table.primary('uid')
   })
 }
 

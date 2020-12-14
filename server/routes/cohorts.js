@@ -1,20 +1,29 @@
 /* eslint-disable promise/no-nesting */
 const express = require('express')
-// const request = require('superagent')
 
-// var jwt = require('jsonwebtoken')
-// var admin = require('firebase-admin')
-// var app = admin.initializeApp()
-
-const db = require('../db/cohorts')
+const dbCohorts = require('../db/cohorts')
+const dbCohortMembers = require('../db/cohort_members')
 
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  return db.selectCohortsAll()
-    .then(cohorts => {
-      res.status = 200
-      return res.json(cohorts)
+  let cohorts = []
+  return dbCohorts.selectCohortsAll()
+    .then(cohortsList => {
+      cohorts = cohortsList
+      return dbCohortMembers.selectCohortMembersAll()
+        .then(cohortMembers => {
+          cohorts.map(cohort => {
+            cohort.members = []
+            cohortMembers.map(member => {
+              if (member.cohort_id === cohort.id) {
+                cohort.members.push(member.user_uid)
+              }
+            })
+          })
+          res.status = 200
+          return res.json(cohorts)
+        })
     })
     .catch(e => {
       res.status = 500
@@ -24,7 +33,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const cohortId = req.params.id
-  return db.selectCohortById(cohortId)
+  return dbCohorts.selectCohortById(cohortId)
     .then(cohort => {
       res.status = 200
       return res.json(cohort)

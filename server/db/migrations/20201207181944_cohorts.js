@@ -4,6 +4,7 @@ exports.up = (knex, Promise) => {
     table.string('display_name')
     table.string('campus_id')
     table.string('status')
+    table.primary('id')
   })
 }
 

@@ -1,38 +1,41 @@
 import React, { useEffect } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUser, fetchUsersFromApi } from '../actions/auth'
+import { getCampusesFromAPI } from '../actions/campuses'
+import { getCohortsFromAPI } from '../actions/cohorts'
 import UserControls from './UserControls'
 import Cohort from './Cohort'
 import Cohorts from './Cohorts'
+import Campuses from './Campuses'
+import Campus from './Campus'
 
 const App = (props) => {
   useEffect(() => {
     props.dispatch(fetchUsersFromApi())
     props.dispatch(fetchUser())
+    props.dispatch(getCampusesFromAPI())
+    props.dispatch(getCohortsFromAPI())
   }, [])
 
   return (
     <div className='app'>
       <h1>.votes</h1>
       <Router>
-        <Switch>
-          {props.users !== [] && (
-            <>
-              <Route path="/cohorts" component={Cohorts} />
-              <Route path="/cohorts/:cohort" exact component={Cohort}/>
-            </>
-          )}
-        </Switch>
+        <nav>
+          <NavLink to="/">Home</NavLink>{' | '}
+          <NavLink to="/campuses">Campuses</NavLink>{' | '}
+          <NavLink to="/cohorts">Cohorts</NavLink>
+        </nav>
+        {props.users !== [] && (
+          <>
+            <Route path="/cohorts" exact component={Cohorts} />
+            <Route path="/cohorts/:cohort" exact component={Cohort}/>
+            <Route path="/campuses" exact component={Campuses} />
+            <Route path="/campuses/:campus" exact component={Campus} />
+          </>
+        )}
       </Router>
-      {/* <ul>
-        { props.users.map(user => (
-          <li key={user.uid}>
-            <img className="avatar avatar--24" src={`https://avatars3.githubusercontent.com/u/${user.uid}?s=48&v=4`} />
-            {user.username}
-          </li>
-        ))}
-      </ul> */}
       <UserControls />
     </div>
   )

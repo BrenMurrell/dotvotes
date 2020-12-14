@@ -20,7 +20,13 @@ This project could be used to run dot voting and project selection for final pro
 | -----  | ------ | ------------------------------------- |
 | id *   | string | Cohort slug (e.g. '2020-hihi')        |
 | name   | string | Cohort display name (e.g. 'Hihi 2020) |
-| campus | string | FK to `campuses.id`
+| campus | string | FK to `campuses.id` |
+
+#### cohort_members - students in each cohort 
+| Field       | Type   | Notes                 |
+| -----       | ------ | ------------------    |
+| cohort_id * | int    | FK from `projects.id` |
+| user_uid *   | string | FK from `users.uid`  |
 
 #### projects - Projects for each cohort
 

@@ -33,6 +33,18 @@ exports.seed = function (knex) {
           display_name: 'Wānanga-Ipurangi',
           campus_id: 'wānanga-ipurangi',
           status: 'current'
+        },
+        {
+          id: '2021-harakeke',
+          display_name: 'Harakeke 2021',
+          campus_id: 'tāmaki-makaurau',
+          status: 'future'
+        },
+        {
+          id: '2020-horoeka',
+          display_name: 'Horoeka 2020',
+          campus_id: 'tāmaki-makaurau',
+          status: 'current'
         }
       ])
     })

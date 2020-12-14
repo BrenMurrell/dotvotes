@@ -6,14 +6,27 @@ const request = require('superagent')
 // var admin = require('firebase-admin')
 // var app = admin.initializeApp()
 
-const db = require('../db/users')
-
+const dbUsers = require('../db/users')
+const dbCohortMembers = require('../db/cohort_members')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  return db.selectUsersAll()
+  let userList = []
+  return dbUsers.selectUsersAll()
     .then(users => {
-      return res.json(users)
+      userList = users
+      return dbCohortMembers.selectCohortMembersAll()
+        .then(cohortMembers => {
+          userList.map(user => {
+            user.cohorts = []
+            cohortMembers.map(member => {
+              if (member.user_uid === user.uid) {
+                user.cohorts.push(member.cohort_id)
+              }
+            })
+          })
+          return res.json(userList)
+        })
     })
     .catch(err => {
       res.json(err)
@@ -22,7 +35,7 @@ router.get('/', (req, res) => {
 
 router.get('/username/:username', (req, res) => {
   const username = req.params.username
-  return db.selectUserByUsername(username)
+  return dbUsers.selectUserByUsername(username)
     .then(user => {
       return res.json(user)
     })
@@ -52,7 +65,8 @@ router.post('/', (req, res) => {
   //   .verifyIdToken(token)
   //   .then((decodedToken) => {
   //   })
-  return db.insertNewUser(user)
+
+  return dbUsers.insertNewUser(user)
     .then(result => {
       return res.json(result)
     })

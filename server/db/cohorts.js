@@ -5,7 +5,7 @@ const insertNewCohort = (cohort, db = connection) => {
 }
 
 const selectCohortsAll = (db = connection) => {
-  return db('cohorts').select()
+  return db('cohorts').select().orderBy('status').orderBy('id')
 }
 
 const selectCohortById = (cohortId, db = connection) => {

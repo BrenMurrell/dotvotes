@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { getCohortsFromAPI } from '../actions/cohorts'
-
 const Cohorts = (props) => {
+  const [localCohorts, setLocalCohorts] = useState([])
+
   useEffect(() => {
-    // console.log('get cohorts from db via action here')
-    props.dispatch(getCohortsFromAPI())
-  }, [])
+    !props.filterCohorts && setLocalCohorts(props.cohorts)
+    props.filterCohorts && setLocalCohorts(props.cohorts.filter(cohort => cohort.campus_id === props.filterCohorts))
+  }, [props.cohorts])
   return (
-    <>Cohorts
+    <>
+      <h2>Cohorts</h2>
       <ul>
-        {props.cohorts.map(cohort => {
-          return <li key={cohort.id}><Link to={`/cohorts/${cohort.id}`}>{cohort.display_name}</Link></li>
-        })}
+        {localCohorts.map(cohort => (
+          <li key={cohort.id}><Link to={`/cohorts/${cohort.id}`}>{cohort.display_name}</Link></li>
+        ))}
       </ul>
     </>
   )

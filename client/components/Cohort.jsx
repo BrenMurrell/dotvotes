@@ -1,69 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { addAnyUser } from '../actions/auth'
+
 import Avatar from './Avatar'
 
 const Cohort = (props) => {
-  const [cohort, setCohort] = useState(props.match.params.cohort)
-  const [cohortUsers, setCohortUsers] = useState([])
-
+  const [cohort, setCohort] = useState({})
   const [newUser, setNewUser] = useState({
     username: '',
-    cohort: cohort
+    cohort: ''
   })
 
-  const onUserNameChange = e => {
+  useEffect(() => {
+    const cohortArray = props.cohorts.filter(cohort => cohort.id === props.match.params.cohort)
+    setCohort(cohortArray[0])
+  }, [props.cohorts])
+
+  const submitForm = e => {
+    e.preventDefault()
+    // props.dispatch(addAnyUser(newUser))
+    // setNewUser({
+    //   ...newUser,
+    //   username: ''
+    // })
+  }
+
+  const onFieldChange = e => {
     setNewUser({
       ...newUser,
       [e.target.name]: e.target.value
     })
   }
 
-  const submitForm = e => {
-    e.preventDefault()
-    props.dispatch(addAnyUser(newUser))
-    setNewUser({
-      ...newUser,
-      username: ''
-    })
-  }
-
-  useEffect(() => {
-    setCohort(props.match.params.cohort)
-    setCohortUsers(props.users.filter(user => user.cohort === cohort))
-  }, [props.users, props.match, cohort])
-
-  useEffect(() => {
-    setNewUser({
-      ...newUser,
-      cohort: cohort
-    })
-  }, [cohort])
-
   return (
     <>
-      <div className="avatars avatars--compact">
-        {cohortUsers.map(user => (
-          <Avatar user={user} key={user.uid} />
-        ))}
-      </div>
-      <div className="avatars avatars--vertical">
-        {cohortUsers.map(user => (
-          <Avatar showName user={user} key={user.uid} />
-        ))}
-      </div>
-      <p>{cohortUsers.length}</p>
-      <form onSubmit={submitForm}>
-        <input type="text" name="username" value={newUser.username} onChange={onUserNameChange} />
-        <button>submit</button>
-      </form>
+      { cohort && (
+        <>
+          <h2>{cohort.display_name}</h2>
+          <div className="avatars avatars--compact">
+            {cohort.members && (
+              cohort.members.map(member => {
+                return <Avatar key={member} memberId={member} />
+              })
+            )}
+          </div>
+          <form onSubmit={submitForm}>
+            <label
+              htmlFor="username">
+              Username (from github)
+            </label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={newUser.username}
+              onChange={onFieldChange} />
+            <button>submit</button>
+          </form>
+        </>
+      )}
     </>
   )
 }
-
 const mapStateToProps = (globalState) => {
   return {
-    users: globalState.users
+    cohorts: globalState.cohorts
   }
 }
 
