@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import Avatar from './Avatar'
+import Projects from './Projects'
 
 const Cohort = (props) => {
   const [cohort, setCohort] = useState({})
@@ -36,6 +37,7 @@ const Cohort = (props) => {
       { cohort && (
         <>
           <h2>{cohort.display_name}</h2>
+          <h3>Members</h3>
           <div className="avatars avatars--compact">
             {cohort.members && (
               cohort.members.map(member => {
@@ -56,6 +58,8 @@ const Cohort = (props) => {
               onChange={onFieldChange} />
             <button>submit</button>
           </form>
+          <h3>Projects</h3>
+          <Projects filterProjects={props.match.params.cohort} />
         </>
       )}
     </>
