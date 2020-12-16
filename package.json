@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "@bit/brenmurrell.asterisk-library.all": "0.0.4",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^6.0.0",
     "express": "^4.17.1",

@@ -6,6 +6,7 @@ import { getCampusesFromAPI } from '../actions/campuses'
 import { getCohortsFromAPI } from '../actions/cohorts'
 import { getProjectsFromAPI } from '../actions/projects'
 
+import Home from './Home'
 import UserControls from './UserControls'
 import Cohort from './Cohort'
 import Cohorts from './Cohorts'
@@ -32,6 +33,7 @@ const App = (props) => {
           <NavLink to="/cohorts">Cohorts</NavLink>{' | '}
           <NavLink to="/projects">Projects</NavLink>
         </nav>
+        <Route path="/" exact component={Home} />
         {props.users !== [] && (
           <>
             <Route path="/cohorts" exact component={Cohorts} />

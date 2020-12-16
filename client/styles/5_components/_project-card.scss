@@ -1,0 +1,14 @@
+.project-card {
+  position: relative;
+
+  .card__title {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  &__avatar {
+    position: absolute;
+    right: 1.6rem;
+    top: 0.8rem;
+  }
+}
