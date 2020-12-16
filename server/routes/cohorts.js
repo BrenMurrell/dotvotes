@@ -3,11 +3,13 @@ const express = require('express')
 
 const dbCohorts = require('../db/cohorts')
 const dbCohortMembers = require('../db/cohort_members')
+const dbProjects = require('../db/projects')
 
 const router = express.Router()
 
 router.get('/', (req, res) => {
   let cohorts = []
+  // let projects = []
   return dbCohorts.selectCohortsAll()
     .then(cohortsList => {
       cohorts = cohortsList
@@ -37,6 +39,19 @@ router.get('/:id', (req, res) => {
     .then(cohort => {
       res.status = 200
       return res.json(cohort)
+    })
+    .catch(e => {
+      res.status = 500
+      res.json(e.message)
+    })
+})
+
+router.get('/:id/projects', (req, res) => {
+  const cohortId = req.params.id
+  return dbProjects.selectProjectsByCohort(cohortId)
+    .then(projects => {
+      res.status = 200
+      return res.json(projects)
     })
     .catch(e => {
       res.status = 500
