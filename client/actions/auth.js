@@ -60,7 +60,7 @@ export const logInWithGithub = () => {
         return null
       })
       .catch((err) => {
-        console.log(err.message)
+        console.log(err.message) // move to toaster
       })
   }
 }

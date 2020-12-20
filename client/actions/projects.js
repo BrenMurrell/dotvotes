@@ -9,8 +9,8 @@ const setProjects = (projects) => {
   }
 }
 
-export const getProjectsFromAPI = () => dispatch => {
-  return fetchProjects()
+export const getProjectsFromAPI = (idToken) => dispatch => {
+  return fetchProjects(idToken)
     .then(projects => {
       dispatch(setProjects(projects))
       return null

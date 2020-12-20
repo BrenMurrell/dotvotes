@@ -2,8 +2,9 @@ import request from 'superagent'
 
 export const rootUrl = '/api/v1/projects/'
 
-export function fetchProjects () {
+export const fetchProjects = (token) => {
   return request.get(rootUrl)
+    .auth(token, { type: 'bearer' })
     .then(res => {
       return res.body
     })

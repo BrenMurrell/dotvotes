@@ -16,7 +16,7 @@ const Projects = (props) => {
       {!props.filterProjects && (
         <h2>All projects</h2>
       )}
-      <Container columnCount="4">
+      <Container columnCount={4}>
         { localProjects.map(project => {
           return (
             <Card className="project-card" key={project.project_id} headerText={project.name}>
@@ -36,7 +36,8 @@ const Projects = (props) => {
 }
 const mapStateToProps = (globalState) => {
   return {
-    projects: globalState.projects
+    projects: globalState.projects,
+    user: globalState.users
   }
 }
 

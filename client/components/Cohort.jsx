@@ -67,7 +67,8 @@ const Cohort = (props) => {
 }
 const mapStateToProps = (globalState) => {
   return {
-    cohorts: globalState.cohorts
+    cohorts: globalState.cohorts,
+    users: globalState.users
   }
 }
 

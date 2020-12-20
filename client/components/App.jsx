@@ -20,8 +20,13 @@ const App = (props) => {
     props.dispatch(fetchUser())
     props.dispatch(getCampusesFromAPI())
     props.dispatch(getCohortsFromAPI())
-    props.dispatch(getProjectsFromAPI())
   }, [])
+
+  useEffect(() => {
+    props.auth.loggedIn && (
+      props.dispatch(getProjectsFromAPI(props.auth.user.ya))
+    )
+  }, [props.auth])
 
   return (
     <div className='app'>

@@ -17,8 +17,16 @@ const selectUserByUsername = (username, db = connection) => {
     .first()
 }
 
+const selectUserById = (uid, db = connection) => {
+  return db('users')
+    .select()
+    .where('uid', uid)
+    .first()
+}
+
 module.exports = {
   insertNewUser,
   selectUsersAll,
-  selectUserByUsername
+  selectUserByUsername,
+  selectUserById
 }
